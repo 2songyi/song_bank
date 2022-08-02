@@ -1,0 +1,8 @@
+
+account, auth(login, logout), customer 패키지를 따로 만들기
+-> domain, repository(dao), service, web(controller) 패키지 만들기
+repository에 interface만들기
+
+계좌이체할때 잔액 띄우기
+
+계좌정보와 계좌 주인 이름을 매칭시킬 필요가 있다.
