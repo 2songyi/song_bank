@@ -32,9 +32,28 @@
 > - cos.jar
 
 ## 3. 주요 코드
+```
+@Transactional
+@Override
+public void transfer(String outAccountNum, String inAccountNum, double money) {
+	double balance1 = getBalance(outAccountNum) - money; //출금계좌용
+	double balance2 = getBalance(inAccountNum) + money; //입금계좌용
+		
+	withDraw(outAccountNum, balance1);
+	deposit(inAccountNum, balance2);
+		
+	// outAccountNum계좌에서 money만큼 출금 withdraw
+	// inAccountNum 계좌에 money만큼 입금 deposit
+		
+	// 계좌이체 시 거래내역 추가하기
+	addtransferHistory(outAccountNum, inAccountNum, money, balance1);
+}
+```
+계좌이체를 구현하는 service 메서드입니다.
+출금, 입금 중 하나만 실패여도 전체 rollback을 구현하기 위해 트랜잭션을 사용했습니다.
+둘 다 성공해야 commit되는 분리할 수 없는 하나의 단위로 취급했습니다.
 
-
-### 4. 주요 상세페이지
+## 4. 주요 상세페이지
 - 메인페이지
 ![songbankMain](https://user-images.githubusercontent.com/90902468/189832623-f2a9cb4b-637b-47aa-95a0-100126db313c.png)
 - 계좌 개설 페이지
@@ -42,4 +61,3 @@
 - 계좌 이체 페이지
 ![Songbank2](https://user-images.githubusercontent.com/90902468/189832656-06f38c0c-e51d-4e11-b207-46f62a5c5cb9.png)
 
-### 5. 주요 코드
