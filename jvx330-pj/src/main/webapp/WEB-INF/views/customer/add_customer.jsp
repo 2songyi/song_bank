@@ -71,7 +71,7 @@
         <div class="mb-3">
             <label for="userId">아이디</label>
             <div class="input-group mb-3">
-              <input name="userId" type="text" class="form-control" placeholder="아이디를 입력해주세요." aria-describedby="button-addon2" value="${userId}">
+              <input name="userId" type="text" class="form-control" placeholder="아이디를 입력해주세요." aria-describedby="button-addon2">
               <button class="btn btn-outline-secondary" type="submit" id="button-addon2">아이디 중복체크</button>
             </div>
             <span>${msg}</span>
@@ -82,7 +82,7 @@
         <div class="mb-3">
           <label for="username">비밀번호</label>
           <div class="input-group">
-          <input type="hidden" name="userId" value="${userId}">
+            <input type="hidden" name="userId" value="${userId}">
             <input type="text" name="passwd" class="form-control" id="username" placeholder="비밀번호" required>
           </div>
         </div>

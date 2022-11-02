@@ -58,4 +58,13 @@ public class CustomerDao {
 			return null;
 		}
 	}
+	
+	public String getEncodePW(String userId) {
+		try {
+			String sql = "SELECT passwd FROM Customer WHERE userId = ?";
+			return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<String>(), userId);
+		} catch (IncorrectResultSizeDataAccessException error){
+			return null;
+		}
+	}
 }

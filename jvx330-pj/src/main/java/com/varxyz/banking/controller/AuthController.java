@@ -27,7 +27,6 @@ public class AuthController {
 	@Autowired
 	private CustomerService cservice;
 	
-	   
 		@GetMapping("banking/login")
 		public String startLogin() {
 			return "auth/login";
@@ -38,8 +37,8 @@ public class AuthController {
 		public String login(@RequestParam String userId, @RequestParam String passwd, Model model, HttpSession session) {
 			// 아이디, 비밀번호로 회원 확인하기
 			
-			Customer checkResult = cservice.checkUser(userId, passwd);
-			System.out.println("checkResult : " + checkResult);
+//			Customer checkResult = cservice.checkUser(userId, passwd);
+//			System.out.println("checkResult : " + checkResult);
 			
 			//accountList 세션에 올리기
 			List<AccountListCommand> accountList = aservice.getAccount(userId);
@@ -62,17 +61,30 @@ public class AuthController {
 			로그인 유효성 검증을 Authuser에 값이 들었는지 확인
 			*/
 			
-			if (checkResult == null) {
-				System.out.println("아이디, 비밀번호가 틀림");
-				model.addAttribute("error_msg", "아이디나 비밀번호가 틀렸습니다.");
-				return "log/login";
-			} else {
-				// 계좌번호 session으로 redirect 추가
-				
+//			if (checkResult == null) {
+//				System.out.println("아이디, 비밀번호가 틀림");
+//				model.addAttribute("error_msg", "아이디나 비밀번호가 틀렸습니다.");
+//				return "log/login";
+//			} else {
+//				// 계좌번호 session으로 redirect 추가
+//				
+//				System.out.println("로그인확인");
+//				model.addAttribute("userId", userId);
+//				
+//				return "redirect:/banking/main";
+//			}
+			
+			// 암호화된걸로 확인
+			if (cservice.checkUser(userId, passwd)) {
+				// 일치하다면
 				System.out.println("로그인확인");
 				model.addAttribute("userId", userId);
 				
 				return "redirect:/banking/main";
+			} else {
+				System.out.println("아이디, 비밀번호가 틀림");
+				model.addAttribute("error_msg", "아이디나 비밀번호가 틀렸습니다.");
+				return "log/login";
 			}
 		}
 		

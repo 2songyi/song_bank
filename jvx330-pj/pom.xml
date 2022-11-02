@@ -44,6 +44,31 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		
+		<!--스프링시큐리티 web 라이브러리-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>5.0.6.RELEASE</version>
+        </dependency>
+        <!--스프링시큐리티 core 라이브러리-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>5.0.6.RELEASE</version>
+        </dependency>
+        <!--스프링시큐리티 config 라이브러리-->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>5.0.6.RELEASE</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>5.0.6.RELEASE</version>
+		</dependency>
+		
 		<!-- spring-jdbc -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -189,6 +214,7 @@
 			</exclusions>
 			<scope>runtime</scope>
 		</dependency>
+        
 	</dependencies>
 	
     <build>
