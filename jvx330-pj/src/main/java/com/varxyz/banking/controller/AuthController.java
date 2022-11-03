@@ -82,10 +82,13 @@ public class AuthController {
 				
 				return "redirect:/banking/main";
 			} else {
-				System.out.println("아이디, 비밀번호가 틀림");
-				model.addAttribute("error_msg", "아이디나 비밀번호가 틀렸습니다.");
-				return "log/login";
+				model.addAttribute("msg", "아이디 혹은 비밀번호가 일치하지 않습니다.");
+				model.addAttribute("retrun_mapping", "auth/login");
+				return "msg_alert";
 			}
+			
+			
+			
 		}
 		
 

@@ -42,31 +42,17 @@ public class CustomerService {
 	// 로그인시 유저 체크
 	public boolean checkUser(String userId, String passwd) {
 		
-		// 패스워드 디코딩해서 비교하기
-		//pw = 현재입력된 비밀번호체크
-		//encodepw = 입력된 유저의 비밀번호
-		// if (passwordEncoder.matches(encodepw, pw))
-		// 비밀번호 일치, 입력된 유저의 비밀번호를 인코딩된걸로 
+		String encodePW = checkId(userId).getPasswd();
 		
-		// 일치하면 true를 반환, 아니면 false를 반환한다.
-		// authcontroller에도 true, false로 받아서 구분해야한다.
-
-		String encodePW = getEncodePW(userId);
-		
-		if (passwordEncoder.matches(encodePW, passwd)) {
+		if (passwordEncoder.matches(passwd, encodePW)) {
 			return true;
 		} else {
 			return false;
 		}
-		
+
 	}
 	
-	// 암호화된 비밀번호 찾기
-	public String getEncodePW(String userId) {
-		return customerDao.getEncodePW(userId);
-	}
-	
-	// 아이디로 회원 찾기 (아이디 중복체크)
+	// 아이디로 회원 찾기
 	public Customer checkId(String userId) {
 		return customerDao.checkId(userId);
 	}

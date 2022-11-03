@@ -223,6 +223,18 @@ public class AccountController {
 		for (int i = 0; i < 4; i++) {
 			accountNum += (int) (Math.random() * 10);
 		}
+		
+		/* while (true) {
+			계좌랜덤생성기 호출
+			if (존재하지 않는 계좌번호) {
+				계좌번호변수에 등록
+				break;
+			} else if (중복 계좌번호) {
+				false
+				continue;
+			}
+		*/
+		
 
 		return accountNum;
 	}

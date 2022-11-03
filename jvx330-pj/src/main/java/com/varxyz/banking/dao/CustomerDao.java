@@ -48,7 +48,7 @@ public class CustomerDao {
 		
 	}
 	
-	// 회원가입 아이디 중복체크용 아이디로 회원찾기
+	// 아이디로 회원찾기
 	public Customer checkId(String userId) {
 		try {
 			String sql = "SELECT * FROM Customer WHERE userId = ?";
@@ -59,12 +59,4 @@ public class CustomerDao {
 		}
 	}
 	
-	public String getEncodePW(String userId) {
-		try {
-			String sql = "SELECT passwd FROM Customer WHERE userId = ?";
-			return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<String>(), userId);
-		} catch (IncorrectResultSizeDataAccessException error){
-			return null;
-		}
-	}
 }
