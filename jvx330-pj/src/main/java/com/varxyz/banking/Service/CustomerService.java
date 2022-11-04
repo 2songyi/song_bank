@@ -25,17 +25,12 @@ public class CustomerService {
 	 public CustomerService(DataSource dataSource) { 
 		 customerDao = new CustomerDao(dataSource); 
 	 }
-	 
 	
 	 // 고객 회원가입
 	public void addCustomer(CustomerCommand customer) {
 		// 암호화
 		String encodePasswd = passwordEncoder.encode(customer.getPasswd());
 		customer.setPasswd(encodePasswd);
-		System.out.println("userId:" + customer.getUserId());
-		System.out.println("encodePasswd:" + encodePasswd);
-		// 디코딩해서 비교할때는
-		// passwordEncoder.matches(암호화된거, 입력된비번) 사용하면 된다.
 		customerDao.addCustomer(customer);
 	}
 	
@@ -49,7 +44,6 @@ public class CustomerService {
 		} else {
 			return false;
 		}
-
 	}
 	
 	// 아이디로 회원 찾기
