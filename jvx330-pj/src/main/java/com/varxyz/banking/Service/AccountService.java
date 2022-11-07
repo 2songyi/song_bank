@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.varxyz.banking.dao.AccountDao;
 import com.varxyz.banking.domain.Account;
 import com.varxyz.banking.domain.AccountListCommand;
+import com.varxyz.banking.domain.CheckingAccount;
+import com.varxyz.banking.domain.SavingAccount;
 import com.varxyz.banking.domain.TransferHistory;
 
 @Component
@@ -30,12 +32,36 @@ public class AccountService {
 	}
 	
 	// 계좌 생성
-	public void addAccount(Account account) {
-		// controller에 있는 내용 service로 옮기기, 랜덤계좌 생성기도 service로 옮기기
+	public String addAccount(Account account) {
 		
-		String encodePasswd = passwordEncoder.encode(account.getAccountPasswd());
-		account.setAccountPasswd(encodePasswd);
-		accountDao.addAccount(account);
+		String accountNum = generateAccountNum();
+		
+		if (account.getAccType() == 'S') {
+			// 예금계좌
+			SavingAccount saccount = new SavingAccount();
+			
+			saccount.setInterestRate(0.2);
+			saccount.setAccountNum(accountNum);
+			String encodePasswd = passwordEncoder.encode(account.getAccountPasswd());
+			saccount.setAccountPasswd(encodePasswd);
+			saccount.setCustomer(account.getCustomer());
+			
+			accountDao.addAccount(saccount);
+			
+		} else if (account.getAccType() == 'C') {
+			// 입출금 계좌
+			CheckingAccount caccount = new CheckingAccount();
+			
+			caccount.setOverdraftAmount(100000);
+			caccount.setAccountNum(accountNum);
+			String encodePasswd = passwordEncoder.encode(account.getAccountPasswd());
+			caccount.setAccountPasswd(encodePasswd);
+			caccount.setCustomer(account.getCustomer());
+			
+			accountDao.addAccount(caccount);
+		}
+		
+		return accountNum;
 	}
 	
 	// 아이디로 계좌목록 조회

@@ -41,43 +41,21 @@ public class AccountController {
 	}
 
 	@PostMapping("banking/add_account")
-	public String addAccountForm(@RequestParam long cid, @RequestParam String accType, 
+	public String addAccountForm(@RequestParam long cid, @RequestParam char accType, 
 			@RequestParam double balance, @RequestParam String accountPasswd,
 			Model model, HttpSession session) {
 		String userId = (String)session.getAttribute("userId");
 		model.addAttribute(userId);
 		
-		String accountNum;
+		Account account = new Account();
 		
-		// service로 내용 옮기기(계좌 생성기)
-		if (accType.equals("S")) {
-			accType = "예금 계좌";
-			accountNum = generateAccountNum(); // 계좌번호생성기로 랜덤계좌번호 생성
-
-			SavingAccount account = new SavingAccount();
-			account.setCustomer(new Customer(cid));
-			account.setAccountNum(accountNum);
-			account.setAccType('S');
-			account.setBalance(balance);
-			account.setAccountPasswd(accountPasswd);
-			account.setInterestRate(0.2);
-
-			service.addAccount(account);
-		} else {
-			accType = "입출금 계좌";
-			accountNum = generateAccountNum();
-
-			CheckingAccount account = new CheckingAccount();
-			account.setCustomer(new Customer(cid));
-			account.setAccountNum(accountNum);
-			account.setAccType('C');
-			account.setBalance(balance);
-			account.setAccountPasswd(accountPasswd);
-			account.setOverdraftAmount(100000);
-
-			service.addAccount(account);
-		}
-
+		account.setCustomer(new Customer(cid));		
+		account.setAccountPasswd(accountPasswd);
+		account.setAccType(accType);
+		account.setBalance(balance);
+		
+		String accountNum = service.addAccount(account);
+		
 		model.addAttribute("userId", cid);
 		model.addAttribute("accType", accType);
 		model.addAttribute("accountNum", accountNum);
