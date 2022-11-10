@@ -42,6 +42,7 @@ public class AccountService {
 			
 			saccount.setInterestRate(0.2);
 			saccount.setAccountNum(accountNum);
+			saccount.setBalance(account.getBalance());
 			String encodePasswd = passwordEncoder.encode(account.getAccountPasswd());
 			saccount.setAccountPasswd(encodePasswd);
 			saccount.setCustomer(account.getCustomer());
@@ -54,6 +55,7 @@ public class AccountService {
 			
 			caccount.setOverdraftAmount(100000);
 			caccount.setAccountNum(accountNum);
+			caccount.setBalance(account.getBalance());
 			String encodePasswd = passwordEncoder.encode(account.getAccountPasswd());
 			caccount.setAccountPasswd(encodePasswd);
 			caccount.setCustomer(account.getCustomer());
@@ -68,6 +70,7 @@ public class AccountService {
 	public List<AccountListCommand> getAccount(String userId) {
 		return accountDao.getAccount(userId);
 	}
+	
 	// 전체 계좌 조회
 	public List<AccountListCommand> findAllAccount() {
 		return accountDao.findAllAccount();
@@ -85,7 +88,7 @@ public class AccountService {
 	
 	// 계좌 이체
 	@Transactional  // 출금, 입금 중 하나만 실패여도 rollback, 둘 다 성공해야 commit  분리할 수 없는 하나의 단위로 본다.
-	public void transfer(String outAccountNum, String inAccountNum, double money) {
+	public void transfer(String outAccountNum, String inAccountNum, double money) throws Exception{
 		double balance1 = getBalance(outAccountNum) - money; //출금계좌용
 		double balance2 = getBalance(inAccountNum) + money; //입금계좌용
 		
@@ -94,14 +97,21 @@ public class AccountService {
 		
 		// outAccountNum계좌에서 money만큼 출금 withdraw
 		// inAccountNum 계좌에 money만큼 입금 deposit
-		
+		// 잔액이 -가 되면 예외처리
 		// 계좌이체 시 거래내역 추가하기
 		addtransferHistory(outAccountNum, inAccountNum, money, balance1);
 	}
 	
 	// 출금
-	public void withDraw(String accountNum, double money) {
-		accountDao.withDraw(accountNum, money);
+	public void withDraw(String accountNum, double money) throws Exception {
+		// 만약 잔액-출금액 < 0이 된다면 error발생
+		double balance = getBalance(accountNum) - money;
+		
+		if (balance > 0) {
+			accountDao.withDraw(accountNum, money);
+		} else {
+			throw new Exception("잔액이 부족합니다.");
+		}
 	}
 	
 	// 입금

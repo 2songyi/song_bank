@@ -143,7 +143,13 @@ public class AccountController {
 		if (service.checkPasswdForTransfer(outAccountNum,accountPasswd) == true) {
 			//비번일치
 			System.out.println("비번일치");
-			service.transfer(outAccountNum, inAccountNum, money);
+			try {
+				service.transfer(outAccountNum, inAccountNum, money);
+			} catch (Exception e) {
+				e.printStackTrace();
+				model.addAttribute("error_msg", "잔액이 부족합니다.");
+				return "account/transfer";
+			}
 		} else {
 			//비번불일치
 			model.addAttribute("error_msg", "비밀번호가 일치하지 않습니다.");
