@@ -110,10 +110,16 @@ public class AccountService {
 	}
 	
 	// 계좌이체 시 비밀번호 확인
-	public Account checkPasswdForTransfer(String accountNum, String accountPasswd) {
-		// accountNum, passwd는 다른테이블에 있으니 조인이 필요할 듯
-		// -> 계좌등록할 때 accountPasswd를 추가하는걸로 수정해서 조인 불필요
-		return accountDao.checkPasswdForTransfer(accountNum, accountPasswd);
+	public boolean checkPasswdForTransfer(String accountNum, String accountPasswd) {
+		
+		String encodePasswd = accountDao.checkAccountPasswd(accountNum);
+		System.out.println("계좌이체확인용비번" + encodePasswd);
+		
+		if (passwordEncoder.matches(accountPasswd, encodePasswd)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	// 계좌이체 내역 등록
@@ -122,9 +128,14 @@ public class AccountService {
 		accountDao.addtransferHistory(outAccountNum, inAccountNum, money, balance);
 	}
 	
-	// 계좌이제 거래내역 조회
+	// 계좌이체 거래내역 조회
 	public List<TransferHistory> findAllTransferHistory() {
 		return accountDao.findAllTransferHistory();
+	}
+	
+	// 계좌별 거래내역 조회
+	public List<TransferHistory> findTransferHistoryByAccountNum() {
+		return null;
 	}
 	
 	// 이자 입금

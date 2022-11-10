@@ -140,16 +140,16 @@ public class AccountController {
 	public String transferDo(@RequestParam String outAccountNum, @RequestParam String inAccountNum, 
 			@RequestParam double money, @RequestParam String accountPasswd, Model model, HttpSession session) {
 		
-		
-		// outAccountNum, accountPasswd로 계좌 소유주 조회 -> 맞으면 진행
-		Account checkPasswd = service.checkPasswdForTransfer(outAccountNum, accountPasswd);
-		
-		if (checkPasswd == null) {
+		if (service.checkPasswdForTransfer(outAccountNum,accountPasswd) == true) {
+			//비번일치
+			System.out.println("비번일치");
+			service.transfer(outAccountNum, inAccountNum, money);
+		} else {
+			//비번불일치
 			model.addAttribute("error_msg", "비밀번호가 일치하지 않습니다.");
 			return "account/transfer";
 		}
 		
-		service.transfer(outAccountNum, inAccountNum, money);
 		double balance = service.getBalance(outAccountNum); 
 		
 		model.addAttribute("outAccountNum", outAccountNum);
@@ -169,6 +169,8 @@ public class AccountController {
 		//accountNum으로 거래내역 조회해서 거래내역 리스트 받아오고 테이블출력
 		//@RequestParam String accountNum -> 받아와서 계좌별 리스트 뽑기기능 추가
 		// 현재는 전체 내역 조회만 구현했음
+		System.out.println("계좌내역용 계좌번호" + accountNum);
+		
 		List<TransferHistory> transferList = service.findAllTransferHistory();
 		model.addAttribute("transferList", transferList);
 		return "account/find_transfer_history";
