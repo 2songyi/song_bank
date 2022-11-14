@@ -16,7 +16,7 @@ public class Account {
 	private Customer customer;
 	private String accountNum;
 	private char accType;
-	private double balance;
+	private int balance;
 	private String accountPasswd; //4자
 	private Date regDate;
 	

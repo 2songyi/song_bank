@@ -35,31 +35,12 @@ public class AuthController {
 		// 로그인 페이지
 		@PostMapping("banking/login")
 		public String login(@RequestParam String userId, @RequestParam String passwd, Model model, HttpSession session) {
-			// 아이디, 비밀번호로 회원 확인하기
 			
-//			Customer checkResult = cservice.checkUser(userId, passwd);
-			
-			//accountList 세션에 올리기
 			List<AccountListCommand> accountList = aservice.getAccount(userId);
 			session.setAttribute("accountList", accountList);
 			
 			//로그인 아이디 세션에 올리기
 			session.setAttribute("userId", userId);
-			
-			/*
-			 * userContainer만들어서 세션 넣기
-			UserContainer userContainer = new UserContainer();
-			userContainer.setAuthUser(authUserService.getAuthUser(email));
-			session.setAttribute();
-			
-			sessoion에 customer정보 다 올리면 비밀번호도 올라가서 문제가 됨. -> 시스템 운영에 필요한거만 따로 올리려고
-			 만든게 authUser
-			AuthUser클래스에는 비밀번호가 없음
-			UserContainer에는 private AuthUser authUser, List<Account> accountList가 변수로 있음
-			
-			로그인 유효성 검증을 Authuser에 값이 들었는지 확인
-			*/
-			
 			
 			// 암호화된걸로 확인
 			if (cservice.checkUser(userId, passwd)) {

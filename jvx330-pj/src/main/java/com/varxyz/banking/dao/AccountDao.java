@@ -80,7 +80,7 @@ public class AccountDao {
 	}
 	
 	// 자신의 계좌 잔고를 확인할 수 있다.
-	public double getBalance(String accountNum) {
+	public int getBalance(String accountNum) {
 		String sql = "SELECT balance FROM Account WHERE accountNum = ?";
 		
 		Account account = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<Account>(Account.class), accountNum);

@@ -12,12 +12,10 @@ import lombok.ToString;
 @ToString
 public class CustomerCommand {
 
-
 	private String userId;
 	private String passwd;
 	private String name;
 	private String ssn;
 	private String phone;
-
 	
 }

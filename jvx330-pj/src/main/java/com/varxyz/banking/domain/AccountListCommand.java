@@ -10,7 +10,7 @@ import lombok.Setter;
 public class AccountListCommand {
 	private String accountNum;
 	private char accType;
-	private double balance;
+	private int balance;
 	private double interestRate;
 	private double overAmount;
 	private String name;

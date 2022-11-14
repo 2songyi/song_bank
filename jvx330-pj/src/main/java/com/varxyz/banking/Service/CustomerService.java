@@ -37,8 +37,11 @@ public class CustomerService {
 	// 로그인시 유저 체크
 	public boolean checkUser(String userId, String passwd) {
 		
-		String encodePW = checkId(userId).getPasswd();
+		String encodePW = customerDao.checkId(userId).getPasswd();
 		
+		if (encodePW == null) {
+			System.out.println("여기서 널포인트 뜨는건가");
+		}
 		if (passwordEncoder.matches(passwd, encodePW)) {
 			return true;
 		} else {

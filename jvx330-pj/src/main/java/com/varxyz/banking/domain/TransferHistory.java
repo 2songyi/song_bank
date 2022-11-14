@@ -12,8 +12,8 @@ import lombok.Setter;
 public class TransferHistory {
 	private String outAccountNum;
 	private String inAccountNum;
-	private double money;
-	private double balance;
+	private int money;
+	private int balance;
 	private Date regDate;
 	
 	@Override

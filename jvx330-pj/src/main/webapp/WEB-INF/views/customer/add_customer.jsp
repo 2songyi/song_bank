@@ -111,23 +111,20 @@
   <div class="row justify-content-center">
 
     <div class="col-md-5 order-md-1">
-      <form action="check_id" method="get" class="needs-validation" novalidate>
+      
+          
+		<form action="add_customer" method="post" class="needs-validation" novalidate>
         <div class="mb-3">
             <label for="userId">아이디</label>
             <div class="input-group mb-3">
               <input name="userId" type="text" class="id_input form-control" placeholder="아이디를 입력해주세요." aria-describedby="button-addon2">
             </div>
-            <!--<span>${msg}</span>-->
             <span class="id_input_re_1">사용 가능한 아이디입니다.</span>
             <span class="id_input_re_2">아이디가 이미 존재합니다.</span>
           </div>
-          </form>
-          
-		<form action="add_customer" method="post" class="needs-validation" novalidate>
         <div class="mb-3">
           <label for="username">비밀번호</label>
           <div class="input-group">
-            <input type="hidden" name="userId" value="${userId}">
             <input type="text" name="passwd" class="form-control" id="username" placeholder="비밀번호" required>
           </div>
         </div>

@@ -77,7 +77,7 @@ public class AccountService {
 	}
 	
 	// 계좌 잔액 확인
-	public double getBalance(String accountNum) {
+	public int getBalance(String accountNum) {
 		return accountDao.getBalance(accountNum);
 	}
 	
@@ -88,9 +88,9 @@ public class AccountService {
 	
 	// 계좌 이체
 	@Transactional  // 출금, 입금 중 하나만 실패여도 rollback, 둘 다 성공해야 commit  분리할 수 없는 하나의 단위로 본다.
-	public void transfer(String outAccountNum, String inAccountNum, double money) throws Exception{
-		double balance1 = getBalance(outAccountNum) - money; //출금계좌용
-		double balance2 = getBalance(inAccountNum) + money; //입금계좌용
+	public void transfer(String outAccountNum, String inAccountNum, int money) throws Exception{
+		int balance1 = getBalance(outAccountNum) - money; //출금계좌용
+		int balance2 = getBalance(inAccountNum) + money; //입금계좌용
 		
 		withDraw(outAccountNum, balance1);
 		deposit(inAccountNum, balance2);
@@ -103,9 +103,9 @@ public class AccountService {
 	}
 	
 	// 출금
-	public void withDraw(String accountNum, double money) throws Exception {
+	public void withDraw(String accountNum, int money) throws Exception {
 		// 만약 잔액-출금액 < 0이 된다면 error발생
-		double balance = getBalance(accountNum) - money;
+		int balance = getBalance(accountNum) - money;
 		
 		if (balance > 0) {
 			accountDao.withDraw(accountNum, money);

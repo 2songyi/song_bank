@@ -32,7 +32,6 @@ public class AccountController {
 		String userId = (String)session.getAttribute("userId");
 		model.addAttribute(userId);
 		
-		
 		long cid = service.findCidbyUserId(userId);
 		model.addAttribute("cid", cid);
 		System.out.println(cid);
@@ -42,7 +41,7 @@ public class AccountController {
 
 	@PostMapping("banking/add_account")
 	public String addAccountForm(@RequestParam long cid, @RequestParam char accType, 
-			@RequestParam double balance, @RequestParam String accountPasswd,
+			@RequestParam int balance, @RequestParam String accountPasswd,
 			Model model, HttpSession session) {
 		String userId = (String)session.getAttribute("userId");
 		model.addAttribute(userId);
@@ -138,7 +137,7 @@ public class AccountController {
 	
 	@PostMapping("banking/transfer")
 	public String transferDo(@RequestParam String outAccountNum, @RequestParam String inAccountNum, 
-			@RequestParam double money, @RequestParam String accountPasswd, Model model, HttpSession session) {
+			@RequestParam int money, @RequestParam String accountPasswd, Model model, HttpSession session) {
 		
 		if (service.checkPasswdForTransfer(outAccountNum,accountPasswd) == true) {
 			//비번일치
