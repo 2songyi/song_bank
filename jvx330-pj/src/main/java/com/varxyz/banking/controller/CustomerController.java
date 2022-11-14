@@ -7,7 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.varxyz.banking.Service.CustomerService;
 import com.varxyz.banking.domain.Customer;
@@ -37,23 +37,18 @@ public class CustomerController {
 		return "customer/add_customer_result";
 	}
 	
-	// 회원가입 시 아이디 중복체크
-	@GetMapping("/banking/check_id")
-	public String checkId(@RequestParam String userId, Model model) {
-		// 회원가입창에 아이디 입력버튼 -> input+button형태로 수정
-		// 아이디 중복확인
-
-		Customer checkResult = service.checkId(userId);
+	// 아이디 중복체크
+	@PostMapping("/banking/memberIdCheck")
+	@ResponseBody
+	public String memberIdCheck(String memberId) throws Exception {
+	
+		Customer checkResult = service.checkId(memberId);
 		
-		// checkResult가 null이 아니면 중복된 아이디, null이면 회원가입 진행
 		if (checkResult != null) {
-			model.addAttribute("msg", "중복된 아이디입니다.");
-			return "customer/add_customer";
+			return "fail";
+		} else {
+			return "success";
 		}
-		
-		model.addAttribute("msg", "사용가능한 아이디입니다.");
-		model.addAttribute("userId", userId);
-		return "customer/add_customer";
 	}
 	
 	// 관리자용 ) 전체 고객 리스트(계좌번호까지) -> 조인필요한가
@@ -65,11 +60,6 @@ public class CustomerController {
 		
 		return "customer/all_customer";
 	}
-	
-	
-	
-	
-	
 	
 
 }

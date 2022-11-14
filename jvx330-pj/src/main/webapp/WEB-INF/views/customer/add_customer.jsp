@@ -17,7 +17,12 @@
     <!-- Bootstrap core CSS -->
 	<link href="<c:url value='/resources/css/bootstrap.min.css'/>" rel="stylesheet">
 	<link href="<c:url value='/resources/css/default.css'/>" rel="stylesheet">
-
+	<script
+	  src="https://code.jquery.com/jquery-3.4.1.js"
+ 	  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+ 	  crossorigin="anonymous">
+	</script>
+  
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
     
@@ -38,13 +43,28 @@
           font-size: 3.5rem;
         }
       }
+      
+      /*아이디 중복체크*/
+      .id_input_re_1 {
+      	color : green;
+      	display : none;
+      	font-size : 13px;
+      }
+      
+      .id_input_re_2 {
+      	color : red;
+      	display : none;
+      	font-size : 13px;
+      }
     </style>
-
 
     <!-- Custom styles for this template -->
     <link href="<c:url value='/resources/css/success_login.css'/>" rel="stylesheet">
     
-     <script language="javascript">
+	
+  </head>
+      <script>
+     
 
 	function agreeCheck(frm) {
    		if (frm.checkButton.disabled==true) {
@@ -54,9 +74,33 @@
   	 	}
 	}
 
-	</script>
+	// 아이디 중복체크
+	$( document ).ready( function() {
+   	 $('.id_input').on("propertychange change keyup paste input", function() {
+   	   var memberId = $('.id_input').val();
+   	   var data = {memberId : memberId}
+   	   
+   	   console.log(memberId);
+   	   
+   		$.ajax({
+ 		  type : "post",
+ 		  url : "/jv330/banking/memberIdCheck",
+ 		  data : data,
+ 		  success : function(result) {
+ 			  if (result != "fail") {
+ 				  $('.id_input_re_1').css("display", "inline-block");
+ 				  $('.id_input_re_2').css("display", "none");
+ 			  } else {
+ 				 $('.id_input_re_1').css("display", "none");
+				 $('.id_input_re_2').css("display", "inline-block");
+ 			  }
+ 		  }
+ 	   });
+   		
+  	  });
+     } );
 	
-  </head>
+	</script>
   <body class="bg-light">
 
 <div class="container">
@@ -71,10 +115,11 @@
         <div class="mb-3">
             <label for="userId">아이디</label>
             <div class="input-group mb-3">
-              <input name="userId" type="text" class="form-control" placeholder="아이디를 입력해주세요." aria-describedby="button-addon2">
-              <button class="btn btn-outline-secondary" type="submit" id="button-addon2">아이디 중복체크</button>
+              <input name="userId" type="text" class="id_input form-control" placeholder="아이디를 입력해주세요." aria-describedby="button-addon2">
             </div>
-            <span>${msg}</span>
+            <!--<span>${msg}</span>-->
+            <span class="id_input_re_1">사용 가능한 아이디입니다.</span>
+            <span class="id_input_re_2">아이디가 이미 존재합니다.</span>
           </div>
           </form>
           
@@ -94,7 +139,7 @@
 
         <div class="mb-3">
           <label for="address">주민번호</label>
-          <input type="text" name="ssn" class="form-control" id="address" placeholder="생년월일 8자" required>
+          <input type="date" name="ssn" class="form-control" id="address" placeholder="생년월일 8자" required>
         </div>
 
         <div class="mb-3">
@@ -118,11 +163,11 @@
 </div>
 </div>
 
-
+<!--
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
       <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+ -->
 
-
-        <script src="form-validation.js"></script>
+       
   </body>
 </html>
